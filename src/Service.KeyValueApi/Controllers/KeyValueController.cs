@@ -9,6 +9,7 @@ using NSwag.Annotations;
 using Service.Core.Client.Constants;
 using Service.Core.Client.Extensions;
 using Service.Core.Client.Models;
+using Service.Grpc;
 using Service.KeyValue.Grpc;
 using Service.KeyValue.Grpc.Models;
 using Service.KeyValueApi.Models;
@@ -27,9 +28,9 @@ namespace Service.KeyValueApi.Controllers
 	public class KeyValueController : ControllerBase
 	{
 		private readonly IKeyValueService _keyValueService;
-		private readonly IUserInfoService _userInfoService;
+		private readonly IGrpcServiceProxy<IUserInfoService> _userInfoService;
 
-		public KeyValueController(IUserInfoService userInfoService, IKeyValueService keyValueService)
+		public KeyValueController(IGrpcServiceProxy<IUserInfoService> userInfoService, IKeyValueService keyValueService)
 		{
 			_userInfoService = userInfoService;
 			_keyValueService = keyValueService;
@@ -130,7 +131,7 @@ namespace Service.KeyValueApi.Controllers
 
 		private async ValueTask<Guid?> GetUserIdAsync()
 		{
-			UserInfoResponse userInfoResponse = await _userInfoService.GetUserInfoByLoginAsync(new UserInfoAuthRequest
+			UserInfoResponse userInfoResponse = await _userInfoService.Service.GetUserInfoByLoginAsync(new UserInfoAuthRequest
 			{
 				UserName = User.Identity?.Name
 			});
