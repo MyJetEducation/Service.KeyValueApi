@@ -17,9 +17,6 @@ namespace Service.KeyValueApi.Settings
 		[YamlProperty("KeyValueApi.JwtAudience")]
 		public string JwtAudience { get; set; }
 
-		[YamlProperty("KeyValueApi.UserInfoCrudServiceUrl")]
-		public string UserInfoCrudServiceUrl { get; set; }
-
 		[YamlProperty("KeyValueApi.KeyValueServiceUrl")]
 		public string KeyValueServiceUrl { get; set; }
 	}

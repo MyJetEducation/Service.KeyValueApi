@@ -9,12 +9,9 @@ using NSwag.Annotations;
 using Service.Core.Client.Constants;
 using Service.Core.Client.Extensions;
 using Service.Core.Client.Models;
-using Service.Grpc;
 using Service.KeyValue.Grpc;
 using Service.KeyValue.Grpc.Models;
 using Service.KeyValueApi.Models;
-using Service.UserInfo.Crud.Grpc;
-using Service.UserInfo.Crud.Grpc.Models;
 
 namespace Service.KeyValueApi.Controllers
 {
@@ -28,13 +25,8 @@ namespace Service.KeyValueApi.Controllers
 	public class KeyValueController : ControllerBase
 	{
 		private readonly IKeyValueService _keyValueService;
-		private readonly IGrpcServiceProxy<IUserInfoService> _userInfoService;
 
-		public KeyValueController(IGrpcServiceProxy<IUserInfoService> userInfoService, IKeyValueService keyValueService)
-		{
-			_userInfoService = userInfoService;
-			_keyValueService = keyValueService;
-		}
+		public KeyValueController(IKeyValueService keyValueService) => _keyValueService = keyValueService;
 
 		[HttpPost("get")]
 		[SwaggerResponse(HttpStatusCode.OK, typeof (DataResponse<KeyValueList>), Description = "Ok")]
@@ -44,7 +36,7 @@ namespace Service.KeyValueApi.Controllers
 			if (keys.IsNullOrEmpty())
 				return StatusResponse.Error(ResponseCode.NoRequestData);
 
-			Guid? userId = await GetUserIdAsync();
+			Guid? userId = GetUserId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
@@ -72,7 +64,7 @@ namespace Service.KeyValueApi.Controllers
 			if (items.IsNullOrEmpty())
 				return StatusResponse.Error(ResponseCode.NoRequestData);
 
-			Guid? userId = await GetUserIdAsync();
+			Guid? userId = GetUserId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
@@ -93,7 +85,7 @@ namespace Service.KeyValueApi.Controllers
 			if (keys.IsNullOrEmpty())
 				return StatusResponse.Error(ResponseCode.NoRequestData);
 
-			Guid? userId = await GetUserIdAsync();
+			Guid? userId = GetUserId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
@@ -110,7 +102,7 @@ namespace Service.KeyValueApi.Controllers
 		[SwaggerResponse(HttpStatusCode.OK, typeof (DataResponse<KeysResponse>), Description = "Ok")]
 		public async ValueTask<IActionResult> GetKeysAsync()
 		{
-			Guid? userId = await GetUserIdAsync();
+			Guid? userId = GetUserId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
@@ -129,15 +121,7 @@ namespace Service.KeyValueApi.Controllers
 			});
 		}
 
-		private async ValueTask<Guid?> GetUserIdAsync()
-		{
-			UserInfoResponse userInfoResponse = await _userInfoService.Service.GetUserInfoByLoginAsync(new UserInfoAuthRequest
-			{
-				UserName = User.Identity?.Name
-			});
-
-			return userInfoResponse?.UserInfo?.UserId;
-		}
+		private Guid? GetUserId() => Guid.TryParse(User.Identity?.Name, out Guid uid) ? (Guid?)uid : null;
 
 		private static IActionResult Result(bool? isSuccess) => isSuccess == true ? StatusResponse.Ok() : StatusResponse.Error();
 	}
