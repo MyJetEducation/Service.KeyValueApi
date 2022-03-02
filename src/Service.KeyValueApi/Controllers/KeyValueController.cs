@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
-using Service.Core.Client.Constants;
 using Service.Core.Client.Extensions;
 using Service.Core.Client.Models;
 using Service.KeyValue.Grpc;
 using Service.KeyValue.Grpc.Models;
 using Service.KeyValueApi.Models;
+using Service.Web;
 
 namespace Service.KeyValueApi.Controllers
 {
@@ -74,7 +74,7 @@ namespace Service.KeyValueApi.Controllers
 				Items = items?.Select(item => new KeyValueGrpcModel {Key = item.Key, Value = item.Value}).ToArray()
 			});
 
-			return Result(response?.IsSuccess);
+			return StatusResponse.Result(response);
 		}
 
 		[HttpPost("delete")]
@@ -95,7 +95,7 @@ namespace Service.KeyValueApi.Controllers
 				Keys = keys
 			});
 
-			return Result(response?.IsSuccess);
+			return StatusResponse.Result(response);
 		}
 
 		[HttpPost("keys")]
@@ -122,7 +122,5 @@ namespace Service.KeyValueApi.Controllers
 		}
 
 		private Guid? GetUserId() => Guid.TryParse(User.Identity?.Name, out Guid uid) ? (Guid?)uid : null;
-
-		private static IActionResult Result(bool? isSuccess) => isSuccess == true ? StatusResponse.Ok() : StatusResponse.Error();
 	}
 }

@@ -14,9 +14,6 @@ namespace Service.KeyValueApi.Settings
 		[YamlProperty("KeyValueApi.ElkLogs")]
 		public LogElkSettings ElkLogs { get; set; }
 
-		[YamlProperty("KeyValueApi.JwtAudience")]
-		public string JwtAudience { get; set; }
-
 		[YamlProperty("KeyValueApi.KeyValueServiceUrl")]
 		public string KeyValueServiceUrl { get; set; }
 	}
