@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyJetWallet.Sdk.Authorization.Http;
 using NSwag.Annotations;
 using Service.Core.Client.Extensions;
 using Service.Core.Client.Models;
@@ -121,6 +122,13 @@ namespace Service.WalletApi.KeyValueApi.Controllers
 			});
 		}
 
-		private Guid? GetUserId() => Guid.TryParse(User.Identity?.Name, out Guid uid) ? (Guid?)uid : null;
+		private Guid? GetUserId()
+		{
+			string clientId = this.GetClientId();
+			if (clientId.IsNullOrWhiteSpace())
+				return null;
+
+			return Guid.TryParse(clientId, out Guid uid) ? (Guid?)uid : null;
+		}
 	}
 }
