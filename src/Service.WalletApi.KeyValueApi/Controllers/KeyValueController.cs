@@ -10,10 +10,10 @@ using Service.Core.Client.Extensions;
 using Service.Core.Client.Models;
 using Service.KeyValue.Grpc;
 using Service.KeyValue.Grpc.Models;
-using Service.KeyValueApi.Models;
+using Service.WalletApi.KeyValueApi.Controllers.Contracts;
 using Service.Web;
 
-namespace Service.KeyValueApi.Controllers
+namespace Service.WalletApi.KeyValueApi.Controllers
 {
 	[Authorize]
 	[ApiController]

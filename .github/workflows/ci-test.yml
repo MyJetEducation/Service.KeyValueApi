@@ -4,7 +4,6 @@ on:
   push:
       branches:
         - master
-  workflow_dispatch:
 
 jobs:
   build:
@@ -33,7 +32,7 @@ jobs:
       run: ls
 
     - name: Publish Service
-      run: dotnet publish --no-build ./src/Service.KeyValueApi/Service.KeyValueApi.csproj --configuration Release --output ./publish-api
+      run: dotnet publish --no-build ./src/Service.WalletApi.KeyValueApi/Service.WalletApi.KeyValueApi.csproj --configuration Release --output ./publish-api
 
     - name: Check Service dir
       run: ls ./publish-api
@@ -44,41 +43,30 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         path: ./publish-api
-#        registry: docker.pkg.github.com
-        registry: ghcr.io
-        repository: ${{ secrets.ORG_NAME }}/service.keyvalueapi/service.keyvalueapi-test
+        registry: docker.pkg.github.com
+        repository: ${{ secrets.ORG_NAME }}/service.walletapi.keyvalueapi/myjetwallet.service.walletapi.keyvalueapi-test
         tags: latest
-        build_args: app_version=service.keyvalueapi-test:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
+        build_args: app_version=myjetwallet.service.walletapi.keyvalueapi-test:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
 
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@master
+    - name: Publish image ST
+      uses: docker/build-push-action@v1
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        port: ${{ secrets.PORT }}
-        key: ${{ secrets.PRIVATE_KEY }}
-        script: cd /home/monfex/Services/Service.KeyValueApi && docker-compose pull && docker-compose up -d
+        username: ${{ secrets.ST_DOCKER_USER }}
+        password: ${{ secrets.ST_DOCKER_PASSWORD }}
+        path: ./publish-api
+        registry: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+        repository: spot/myjetwallet.service.walletapi.keyvalueapi-test
+        tags: latest
+        add_git_labels: true
+        build_args: app_version=myjetwallet.service.walletapi.keyvalueapi-test:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
 
-#    - name: Publish image Azure
-#      uses: docker/build-push-action@v1
-#      with:
-#        username: ${{ secrets.AZ_DOCKER_USER }}
-#        password: ${{ secrets.AZ_DOCKER_PASSWORD }}
-#        path: ./publish-api
-#        registry: ${{ secrets.AZ_REGISTRY }}
-#        repository: education/service.educationapi-test
-#        tags: latest
-#        add_git_labels: true
-#        build_args: app_version=service.educationapi-test:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
-
-  #restart:
-  #  runs-on: self-hosted   
-  #  needs: build
-  #  steps:
-  #  - name: Restart service
-  #    uses: Myjetwallet/kube-restart-pods@master
-  #    env:
-  #      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA__ST_TEST }}
-  #      NAMESPACE: ${{ secrets.KUBE_TEST_NAMESPACE }}
-  #      POD: educationapi
-
+  restart:
+    runs-on: ubuntu-latest    
+    needs: build
+    steps:
+    - name: Restart service
+      uses: Myjetwallet/kube-restart-pods@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA__ST_TEST }}
+        NAMESPACE: ${{ secrets.KUBE_TEST_NAMESPACE }}
+        POD: wallet-api-keyvalueapi

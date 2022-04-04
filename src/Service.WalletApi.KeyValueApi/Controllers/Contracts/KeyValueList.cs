@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Service.KeyValueApi.Models
+namespace Service.WalletApi.KeyValueApi.Controllers.Contracts
 {
 	public class KeyValueList
 	{

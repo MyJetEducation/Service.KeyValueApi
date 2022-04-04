@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace Service.KeyValueApi.Modules
+namespace Service.WalletApi.KeyValueApi.Modules
 {
     public class SettingsModule : Module
     {
