@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -37,7 +36,7 @@ namespace Service.WalletApi.KeyValueApi.Controllers
 			if (keys.IsNullOrEmpty())
 				return StatusResponse.Error(ResponseCode.NoRequestData);
 
-			Guid? userId = GetUserId();
+			string userId = this.GetClientId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
@@ -65,7 +64,7 @@ namespace Service.WalletApi.KeyValueApi.Controllers
 			if (items.IsNullOrEmpty())
 				return StatusResponse.Error(ResponseCode.NoRequestData);
 
-			Guid? userId = GetUserId();
+			string userId = this.GetClientId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
@@ -86,7 +85,7 @@ namespace Service.WalletApi.KeyValueApi.Controllers
 			if (keys.IsNullOrEmpty())
 				return StatusResponse.Error(ResponseCode.NoRequestData);
 
-			Guid? userId = GetUserId();
+			string userId = this.GetClientId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
@@ -103,13 +102,13 @@ namespace Service.WalletApi.KeyValueApi.Controllers
 		[SwaggerResponse(HttpStatusCode.OK, typeof (DataResponse<KeysResponse>), Description = "Ok")]
 		public async ValueTask<IActionResult> GetKeysAsync()
 		{
-			Guid? userId = GetUserId();
+			string userId = this.GetClientId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
 			KeysGrpcResponse keysResponse = await _keyValueService.GetKeys(new GetKeysGrpcRequest
 			{
-				UserId = userId,
+				UserId = userId
 			});
 
 			string[] items = keysResponse?.Keys;
@@ -120,15 +119,6 @@ namespace Service.WalletApi.KeyValueApi.Controllers
 			{
 				Keys = items
 			});
-		}
-
-		private Guid? GetUserId()
-		{
-			string clientId = this.GetClientId();
-			if (clientId.IsNullOrWhiteSpace())
-				return null;
-
-			return Guid.TryParse(clientId, out Guid uid) ? (Guid?)uid : null;
 		}
 	}
 }

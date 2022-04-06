@@ -3,8 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MyJetWallet.Sdk.NoSql;
 using MyJetWallet.Sdk.Service;
-using MyJetWallet.Sdk.WalletApi.Wallets;
-using MyNoSqlServer.DataReader;
 
 namespace Service.WalletApi.KeyValueApi
 {
