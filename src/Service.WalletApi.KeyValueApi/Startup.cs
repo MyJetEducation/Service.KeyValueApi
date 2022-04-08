@@ -11,33 +11,33 @@ using Service.WalletApi.KeyValueApi.Modules;
 
 namespace Service.WalletApi.KeyValueApi
 {
-    public class Startup
-    {
-        public void ConfigureServices(IServiceCollection services)
-        {
-            StartupUtils.SetupSimpleServices(services, Program.Settings.SessionEncryptionKeyId);
-            services.AddHttpContextAccessor();
-            services.ConfigureJetWallet<ApplicationLifetimeManager>(Program.Settings.ZipkinUrl, Configuration.TelemetryPrefix);
-        }
+	public class Startup
+	{
+		public void ConfigureServices(IServiceCollection services)
+		{
+			StartupUtils.SetupSimpleServices(services, Program.Settings.SessionEncryptionKeyId);
+			services.AddHttpContextAccessor();
+			services.ConfigureJetWallet<ApplicationLifetimeManager>(Program.Settings.ZipkinUrl, Configuration.TelemetryPrefix);
+		}
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            StartupUtils.SetupWalletApplication(app, env, Program.Settings.EnableApiTrace, "keyvalue");
-            app.UseEndpoints(endpoints =>
-            {
-                //security
-                endpoints.RegisterGrpcServices();
-                endpoints.MapGrpcSchemaRegistry();
-                endpoints.MapControllers();
-            });
-        }
-        
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            builder.ConfigureJetWallet();
-            builder.RegisterModule<SettingsModule>();
-            builder.RegisterModule<ServiceModule>();
-            builder.RegisterModule(new ClientsModule());
-        }
-    }
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			StartupUtils.SetupWalletApplication(app, env, Program.Settings.EnableApiTrace, "keyvalue");
+			app.UseEndpoints(endpoints =>
+			{
+				//security
+				endpoints.RegisterGrpcServices();
+				endpoints.MapGrpcSchemaRegistry();
+				endpoints.MapControllers();
+			});
+		}
+
+		public void ConfigureContainer(ContainerBuilder builder)
+		{
+			builder.ConfigureJetWallet();
+			builder.RegisterModule<SettingsModule>();
+			builder.RegisterModule<ServiceModule>();
+			builder.RegisterModule(new ClientsModule());
+		}
+	}
 }

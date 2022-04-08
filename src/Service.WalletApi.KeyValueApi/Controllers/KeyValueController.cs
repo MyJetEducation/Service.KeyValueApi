@@ -29,7 +29,7 @@ namespace Service.WalletApi.KeyValueApi.Controllers
 		public KeyValueController(IKeyValueService keyValueService) => _keyValueService = keyValueService;
 
 		[HttpPost("get")]
-		[SwaggerResponse(HttpStatusCode.OK, typeof (DataResponse<KeyValueList>), Description = "Ok")]
+		[SwaggerResponse(HttpStatusCode.OK, typeof(DataResponse<KeyValueList>), Description = "Ok")]
 		public async ValueTask<IActionResult> GetAsync([FromBody] KeysRequest keysRequest)
 		{
 			string[] keys = keysRequest?.Keys;
@@ -57,7 +57,7 @@ namespace Service.WalletApi.KeyValueApi.Controllers
 		}
 
 		[HttpPost("put")]
-		[SwaggerResponse(HttpStatusCode.OK, typeof (StatusResponse), Description = "Ok")]
+		[SwaggerResponse(HttpStatusCode.OK, typeof(StatusResponse), Description = "Ok")]
 		public async ValueTask<IActionResult> PutAsync([FromBody] KeyValueList keyValueList)
 		{
 			KeyValueItem[] items = keyValueList?.Items;
@@ -71,14 +71,14 @@ namespace Service.WalletApi.KeyValueApi.Controllers
 			CommonGrpcResponse response = await _keyValueService.Put(new ItemsPutGrpcRequest
 			{
 				UserId = userId,
-				Items = items?.Select(item => new KeyValueGrpcModel {Key = item.Key, Value = item.Value}).ToArray()
+				Items = items?.Select(item => new KeyValueGrpcModel { Key = item.Key, Value = item.Value }).ToArray()
 			});
 
 			return StatusResponse.Result(response);
 		}
 
 		[HttpPost("delete")]
-		[SwaggerResponse(HttpStatusCode.OK, typeof (StatusResponse), Description = "Ok")]
+		[SwaggerResponse(HttpStatusCode.OK, typeof(StatusResponse), Description = "Ok")]
 		public async ValueTask<IActionResult> DeleteAsync([FromBody] KeysRequest keysRequest)
 		{
 			string[] keys = keysRequest?.Keys;
@@ -99,7 +99,7 @@ namespace Service.WalletApi.KeyValueApi.Controllers
 		}
 
 		[HttpPost("keys")]
-		[SwaggerResponse(HttpStatusCode.OK, typeof (DataResponse<KeysResponse>), Description = "Ok")]
+		[SwaggerResponse(HttpStatusCode.OK, typeof(DataResponse<KeysResponse>), Description = "Ok")]
 		public async ValueTask<IActionResult> GetKeysAsync()
 		{
 			string userId = this.GetClientId();

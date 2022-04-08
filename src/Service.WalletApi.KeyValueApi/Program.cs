@@ -27,7 +27,7 @@ namespace Service.WalletApi.KeyValueApi
 			Console.Title = "MyJetWallet Service.Wallet.Api.KeyValueApi";
 
 			Settings = GetSettings();
-			
+
 			using ILoggerFactory loggerFactory = LogConfigurator.ConfigureElk(Configuration.ProductName, Settings.SeqServiceUrl, Settings.ElkLogs);
 
 			LoggerFactory = loggerFactory;
