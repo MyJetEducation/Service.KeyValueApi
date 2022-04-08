@@ -1,9 +1,9 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace Service.KeyValueApi.Tests
+namespace Service.WalletApi.KeyValueApi.Tests
 {
-    public class TestExample
+    public class TestKeyValueApi
     {
         [SetUp]
         public void Setup()

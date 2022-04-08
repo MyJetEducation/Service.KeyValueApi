@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "test\TestApp\TestApp.csproj", "{58D3C5BA-5D1D-48BA-9D51-482831254985}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10. Test", "10. Test", "{D11EB899-A148-4C9B-B340-B907EF71C4A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4782F5A-5BF7-47AF-909D-FB579384CCA0}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci-test.yml = .github\workflows\ci-test.yml
+		.github\workflows\release-service.yml = .github\workflows\release-service.yml
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.WalletApi.KeyValueApi", "src\Service.WalletApi.KeyValueApi\Service.WalletApi.KeyValueApi.csproj", "{CA394C33-4D9B-4A3F-A9DF-CE68104CC473}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.WalletApi.KeyValueApi.Tests", "test\Service.WalletApi.KeyValueApi.Tests\Service.WalletApi.KeyValueApi.Tests.csproj", "{14A9EC30-B681-4B95-8D12-18A9402CADBB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58D3C5BA-5D1D-48BA-9D51-482831254985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58D3C5BA-5D1D-48BA-9D51-482831254985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58D3C5BA-5D1D-48BA-9D51-482831254985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58D3C5BA-5D1D-48BA-9D51-482831254985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA394C33-4D9B-4A3F-A9DF-CE68104CC473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA394C33-4D9B-4A3F-A9DF-CE68104CC473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA394C33-4D9B-4A3F-A9DF-CE68104CC473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA394C33-4D9B-4A3F-A9DF-CE68104CC473}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14A9EC30-B681-4B95-8D12-18A9402CADBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14A9EC30-B681-4B95-8D12-18A9402CADBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14A9EC30-B681-4B95-8D12-18A9402CADBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14A9EC30-B681-4B95-8D12-18A9402CADBB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{58D3C5BA-5D1D-48BA-9D51-482831254985} = {D11EB899-A148-4C9B-B340-B907EF71C4A2}
+		{14A9EC30-B681-4B95-8D12-18A9402CADBB} = {D11EB899-A148-4C9B-B340-B907EF71C4A2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6BF00C9D-AD55-40F2-8FE3-E5C3559B3E26}
+	EndGlobalSection
+EndGlobal

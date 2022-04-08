@@ -5,4 +5,4 @@ ARG app_compilation_date
 ARG app_version
 ENV APP_COMPILATION_DATE=${app_compilation_date}
 ENV APP_VERSION=${app_version}
-ENTRYPOINT ["dotnet", "Service.KeyValueApi.dll"]
+ENTRYPOINT ["dotnet", "Service.WalletApi.KeyValueApi.dll"]

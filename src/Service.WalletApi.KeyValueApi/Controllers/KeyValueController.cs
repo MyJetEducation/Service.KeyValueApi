@@ -1,19 +1,19 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyJetWallet.Sdk.Authorization.Http;
 using NSwag.Annotations;
 using Service.Core.Client.Extensions;
 using Service.Core.Client.Models;
 using Service.KeyValue.Grpc;
 using Service.KeyValue.Grpc.Models;
-using Service.KeyValueApi.Models;
+using Service.WalletApi.KeyValueApi.Controllers.Contracts;
 using Service.Web;
 
-namespace Service.KeyValueApi.Controllers
+namespace Service.WalletApi.KeyValueApi.Controllers
 {
 	[Authorize]
 	[ApiController]
@@ -36,7 +36,7 @@ namespace Service.KeyValueApi.Controllers
 			if (keys.IsNullOrEmpty())
 				return StatusResponse.Error(ResponseCode.NoRequestData);
 
-			Guid? userId = GetUserId();
+			string userId = this.GetClientId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
@@ -64,7 +64,7 @@ namespace Service.KeyValueApi.Controllers
 			if (items.IsNullOrEmpty())
 				return StatusResponse.Error(ResponseCode.NoRequestData);
 
-			Guid? userId = GetUserId();
+			string userId = this.GetClientId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
@@ -85,7 +85,7 @@ namespace Service.KeyValueApi.Controllers
 			if (keys.IsNullOrEmpty())
 				return StatusResponse.Error(ResponseCode.NoRequestData);
 
-			Guid? userId = GetUserId();
+			string userId = this.GetClientId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
@@ -102,13 +102,13 @@ namespace Service.KeyValueApi.Controllers
 		[SwaggerResponse(HttpStatusCode.OK, typeof (DataResponse<KeysResponse>), Description = "Ok")]
 		public async ValueTask<IActionResult> GetKeysAsync()
 		{
-			Guid? userId = GetUserId();
+			string userId = this.GetClientId();
 			if (userId == null)
 				return StatusResponse.Error(ResponseCode.UserNotFound);
 
 			KeysGrpcResponse keysResponse = await _keyValueService.GetKeys(new GetKeysGrpcRequest
 			{
-				UserId = userId,
+				UserId = userId
 			});
 
 			string[] items = keysResponse?.Keys;
@@ -120,7 +120,5 @@ namespace Service.KeyValueApi.Controllers
 				Keys = items
 			});
 		}
-
-		private Guid? GetUserId() => Guid.TryParse(User.Identity?.Name, out Guid uid) ? (Guid?)uid : null;
 	}
 }

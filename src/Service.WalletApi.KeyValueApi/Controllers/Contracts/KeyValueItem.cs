@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Service.KeyValue.Grpc.Models;
 
-namespace Service.KeyValueApi.Models
+namespace Service.WalletApi.KeyValueApi.Controllers.Contracts
 {
 	public class KeyValueItem
 	{

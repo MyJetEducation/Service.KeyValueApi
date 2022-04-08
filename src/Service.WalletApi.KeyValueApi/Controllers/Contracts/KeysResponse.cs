@@ -1,4 +1,4 @@
-﻿namespace Service.KeyValueApi.Models
+﻿namespace Service.WalletApi.KeyValueApi.Controllers.Contracts
 {
 	public class KeysResponse
 	{
