@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using MyJetWallet.ApiSecurityManager.Autofac;
 using MyJetWallet.Sdk.RestApiTrace;
-using MyJetWallet.Sdk.Service;
 using Service.KeyValue.Client;
 
 namespace Service.WalletApi.KeyValueApi.Modules
@@ -10,8 +9,7 @@ namespace Service.WalletApi.KeyValueApi.Modules
 	{
 		protected override void Load(ContainerBuilder builder)
 		{
-			// second parameter is null because we do not store api keys yet for wallet api
-			builder.RegisterEncryptionServiceClient(ApplicationEnvironment.AppName, () => Program.Settings.MyNoSqlWriterUrl);
+			builder.RegisterEncryptionServiceClient();
 
 			builder.RegisterKeyValueClient(Program.Settings.KeyValueServiceUrl);
 
