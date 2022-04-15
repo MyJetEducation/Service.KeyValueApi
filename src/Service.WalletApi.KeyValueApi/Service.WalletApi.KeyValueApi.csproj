@@ -35,7 +35,7 @@
     <PackageReference Include="prometheus-net.AspNetCore" Version="6.0.0" />
     <PackageReference Include="MySettingsReader" Version="1.2.2" />
     <PackageReference Include="SimpleTrading.TokensManager" Version="1.3.2" />
-    <PackageReference Include="MyJetEducation.Service.KeyValue.Client" Version="1.0.11" />
+    <PackageReference Include="MyJetEducation.Service.KeyValue.Client" Version="1.0.12" />
     <PackageReference Include="MyJetEducation.Service.Grpc" Version="1.0.7" />
     <PackageReference Include="MyJetEducation.Service.Web" Version="1.0.3" />
     <PackageReference Include="MyJetEducation.Service.Core.Client" Version="1.0.35" />
